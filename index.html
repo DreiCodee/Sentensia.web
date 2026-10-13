@@ -69,6 +69,14 @@
   </div>
 </section>
 
+<section class="screen cen" id="complete">
+  <div class="crown">🏆</div>
+  <h2 class="fx">Completed!</h2>
+  <p class="soft" id="cpSub">You answered every question in this level.</p>
+  <button class="btn" id="cpAgain">Practice again</button>
+  <button class="btn ghost" id="cpBack">Back to levels</button>
+</section>
+
 <section class="screen cen prem" id="premium">
   <div class="crown">👑</div>
   <span class="ribbon">PREMIUM</span>
@@ -111,13 +119,27 @@
 <section class="screen" id="profile">
   <div class="bar"><button class="ib" data-go="home" aria-label="Back">←</button><div class="t">Profile</div><div class="c"></div></div>
   <div class="body">
-    <div class="av"><img src="" alt="Profile picture"></div><h2 class="fx pname" style="text-align:center;margin-top:-6px">Learner</h2><p style="text-align:center;color:var(--soft);margin-top:-12px">Keep building your skills!</p>
+    <button class="avbtn" data-photo aria-label="Change profile picture"><div class="av"><img src="" alt="Profile picture"></div><span class="cam">📷</span></button><h2 class="fx pname" style="text-align:center;margin-top:-6px">Learner</h2><p style="text-align:center;color:var(--soft);margin-top:-12px">Keep building your skills!</p>
+    <button class="row" data-photo>📷 Change profile picture<span style="margin-left:auto">›</span></button>
     <button class="row" data-rename>✏️ Change name<span style="margin-left:auto">›</span></button>
     <button class="row" data-go="progress">📊 My Progress<span style="margin-left:auto">›</span></button>
     <button class="row" id="theme" role="switch" aria-checked="false"><span id="thIcon">🌙</span><span id="thLabel">Dark mode</span><span class="sw"><i></i></span></button>
     <button class="row" data-about>ℹ️ About Sentensia<span style="margin-left:auto">›</span></button>
   </div>
   <nav class="nav"><button data-go="home"><span>🏠</span>Home</button><button data-go="learn"><span>📖</span>Learn</button><button data-go="progress"><span>📊</span>Progress</button><button class="on" data-go="profile"><span>🙂</span>Profile</button></nav>
+</section>
+<section class="screen" id="photo">
+  <div class="bar"><button class="ib" data-go="profile" aria-label="Back">←</button><div class="t">Profile picture</div><div class="c"></div></div>
+  <div class="body phbody">
+    <div class="stage" id="stage"><img id="pimg" alt="" hidden draggable="false"><div class="phhint" id="phHint">📷<br>Choose a photo to start</div></div>
+    <p class="soft phtip">Drag the photo to move it. Pinch or use the slider to make it bigger or smaller. The photo inside the circle is your picture.</p>
+    <div class="zrow"><span>🔍</span><input type="range" id="zoom" min="50" max="400" value="100" disabled aria-label="Zoom"><span style="font-size:22px">🔎</span></div>
+    <div class="msg" id="phMsg"></div>
+    <button class="btn ghost" id="phPick">📷 Choose a photo</button>
+    <button class="btn" id="phSave" disabled>Save picture</button>
+    <button class="btn ghost" id="phDefault" hidden>Use the default picture</button>
+    <input type="file" id="fileIn" accept="image/*" hidden>
+  </div>
 </section>
 <section class="screen" id="about">
   <div class="bar g"><button class="ib" data-go="profile" aria-label="Back">←</button><div class="t">About Sentensia</div><div class="c"></div></div>
