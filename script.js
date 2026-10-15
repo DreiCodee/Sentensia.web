@@ -1,4 +1,6 @@
 const $=s=>document.querySelector(s),app=$('#app');
+const ICO=n=>'<svg class="i" aria-hidden="true"><use href="#i-'+n+'"/></svg>';
+const setVH=()=>document.documentElement.style.setProperty('--vh',(window.innerHeight*0.01)+'px');setVH();addEventListener('resize',setVH);addEventListener('orientationchange',setVH);
 const order=['splash','home','levels','complete','learn','act','result','progress','profile','photo','about','welcome'];
 let cur='splash';
 function go(id,fwd){
@@ -103,8 +105,8 @@ function renderLevels(){
   document.querySelectorAll('#levels [data-lvl]').forEach(b=>{
     const key=b.dataset.lvl,n=d.lv[key].length,c=d.lv[key].filter((_,k)=>done.has(levelMode+':'+key+':'+k)).length,full=n>0&&c===n;
     b.classList.toggle('locked',!n);b.classList.toggle('complete',full);b.setAttribute('aria-disabled',!n);
-    b.querySelector('small').textContent=!n?'Coming soon':full?'✅ Completed · '+n+'/'+n:(c?c+'/'+n+' done · ':n+' items · ')+LVD[key];
-    b.lastElementChild.textContent=!n?'🔒':full?'✓':'›';
+    b.querySelector('small').textContent=!n?'Coming soon':full?'Completed · '+n+'/'+n:(c?c+'/'+n+' done · ':n+' items · ')+LVD[key];
+    b.lastElementChild.innerHTML=ICO(!n?'lock':full?'check':'right');
   });
 }
 function startLevel(l,again){
@@ -163,7 +165,7 @@ function finish(ok,sent){
   done.add(mode+':'+lvl+':'+i);try{localStorage.setItem('sf-done',JSON.stringify([...done]))}catch(e){}
   $('#rTitle').textContent=({arrange:'Correct!',fix:'Excellent!',build:'Excellent!'})[mode]||'Well done!';
   $('#rSub').textContent=({arrange:'Great job! You arranged the sentence elements logically.',fix:'The words are arranged in an appropriate order.',build:'You constructed a complete and grammatically correct sentence.'})[mode]||'The correct sentence is:';
-  if(D[mode].q.every((_,k)=>done.has(mode+':'+lvl+':'+k)))$('#rSub').textContent+=' 🎉 Level completed!';
+  if(D[mode].q.every((_,k)=>done.has(mode+':'+lvl+':'+k)))$('#rSub').textContent+=' Level completed!';
   $('#rSent').textContent=sent;$('#rTip').textContent=D[mode].q[i].e||D[mode].tip;
   const last=i===D[mode].q.length-1;
   $('#rNext').textContent=last?'Choose a level':'Next question';
@@ -231,7 +233,7 @@ function drawProgress(){
 function applyTheme(dark,save){
   const r=document.documentElement;r.classList.add('fade');r.dataset.theme=dark?'dark':'light';
   const t=$('#theme');t.classList.toggle('on',dark);t.setAttribute('aria-checked',dark);
-  $('#thIcon').textContent=dark?'☀️':'🌙';$('#thLabel').textContent=dark?'Light mode':'Dark mode';
+  $('#thIcon').innerHTML=ICO(dark?'sun':'moon');$('#thLabel').textContent=dark?'Light mode':'Dark mode';
   if(save){try{localStorage.setItem('sf-theme',dark?'dark':'light')}catch(e){}}
   setTimeout(()=>r.classList.remove('fade'),500);
 }
