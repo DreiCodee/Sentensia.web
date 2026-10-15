@@ -1,5 +1,5 @@
 const $=s=>document.querySelector(s),app=$('#app');
-const order=['splash','home','levels','complete','premium','learn','act','result','progress','profile','photo','about','welcome'];
+const order=['splash','home','levels','complete','learn','act','result','progress','profile','photo','about','welcome'];
 let cur='splash';
 function go(id,fwd){
   if(id===cur)return;
@@ -15,7 +15,6 @@ function go(id,fwd){
 document.addEventListener('click',e=>{
   if(e.target.closest('[data-photo]'))return openPhoto();
   if(e.target.closest('[data-about]'))return openAbout();
-  if(e.target.closest('[data-premium]'))return openPremium();
   if(e.target.closest('[data-rename]'))return showWelcome();
   const g=e.target.closest('[data-go]');if(g)return go(g.dataset.go);
   const lv=e.target.closest('[data-lvl]');if(lv)return startLevel(lv.dataset.lvl);
@@ -100,7 +99,7 @@ function start(m){levelMode=m;renderLevels();go('levels')}
 const LVD={beginner:'Short, simple sentences',intermediate:'Phrases and clauses',advanced:'Clauses and longer sentences'};
 function renderLevels(){
   const d=D[levelMode];
-  $('#lvTitle').textContent=d.t;$('#halimaw').style.display=levelMode==='arrange'?'':'none';$('#lvBar').className='bar '+d.cls;
+  $('#lvTitle').textContent=d.t;$('#lvBar').className='bar '+d.cls;
   document.querySelectorAll('#levels [data-lvl]').forEach(b=>{
     const key=b.dataset.lvl,n=d.lv[key].length,c=d.lv[key].filter((_,k)=>done.has(levelMode+':'+key+':'+k)).length,full=n>0&&c===n;
     b.classList.toggle('locked',!n);b.classList.toggle('complete',full);b.setAttribute('aria-disabled',!n);
@@ -108,12 +107,6 @@ function renderLevels(){
     b.lastElementChild.textContent=!n?'🔒':full?'✓':'›';
   });
 }
-function openPremium(){
-  $('#perks').hidden=false;$('#goPrem').hidden=false;$('#rich').hidden=true;
-  go('premium');
-}
-$('#goPrem').onclick=()=>{$('#perks').hidden=true;$('#goPrem').hidden=true;$('#rich').hidden=false};
-$('#premBack').onclick=()=>go('levels');
 function startLevel(l,again){
   const a=D[levelMode].lv[l];if(!a||!a.length)return;
   lvl=l;D[levelMode].q=a;mode=levelMode;

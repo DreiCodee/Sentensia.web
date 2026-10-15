@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sentensia</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -38,10 +38,8 @@
     <button class="menu m1" data-act="arrange"><div class="ic">🧩</div><div><b>Arrange It</b><small>Put the sentence elements in the right order.</small></div><span>›</span></button>
     <button class="menu m2" data-act="fix"><div class="ic">🔄</div><div><b>Fix the Order</b><small>Correct the word order and arrangement.</small></div><span>›</span></button>
     <button class="menu m3" data-act="build"><div class="ic">✏️</div><div><b>Build a Sentence</b><small>Create complete, correct sentences.</small></div><span>›</span></button>
-    <button class="menu m4" data-go="progress"><div class="ic">📊</div><div><b>My Progress</b><small>Track your performance and see your growth.</small></div><span>›</span></button>
-    <button class="menu" style="background:var(--blue2)" data-go="learn"><div class="ic">📖</div><div><b>Learn</b><small>Short explanations with examples.</small></div><span>›</span></button>
   </div>
-  <nav class="nav"><button class="on" data-go="home"><span>🏠</span>Home</button><button data-go="learn"><span>📖</span>Learn</button><button data-go="progress"><span>📊</span>Progress</button><button data-go="profile"><span>🙂</span>Profile</button></nav>
+  <nav class="nav"><button class="on" data-go="home"><span>🏠</span>Home</button><button data-go="progress"><span>📊</span>Progress</button><button data-go="profile"><span>🙂</span>Profile</button></nav>
 </section>
 
 <section class="screen" id="learn">
@@ -65,7 +63,6 @@
     <button class="menu m4" data-lvl="beginner"><div class="ic">🌱</div><div><b>Beginner</b><small>5 items · Short, simple sentences</small></div><span>›</span></button>
     <button class="menu m1" data-lvl="intermediate"><div class="ic">🌿</div><div><b>Intermediate</b><small>5 items · Phrases and clauses</small></div><span>›</span></button>
     <button class="menu m3" data-lvl="advanced"><div class="ic">🌳</div><div><b>Advanced</b><small>5 items · Clauses and longer sentences</small></div><span>›</span></button>
-    <button class="menu mh" id="halimaw" data-premium><div class="ic">👹</div><div><b>Halimaw Mode <span class="pro">PREMIUM</span></b><small>For the real sentence monsters</small></div><span>👑</span></button>
   </div>
 </section>
 
@@ -75,17 +72,6 @@
   <p class="soft" id="cpSub">You answered every question in this level.</p>
   <button class="btn" id="cpAgain">Practice again</button>
   <button class="btn ghost" id="cpBack">Back to levels</button>
-</section>
-
-<section class="screen cen prem" id="premium">
-  <div class="crown">👑</div>
-  <span class="ribbon">PREMIUM</span>
-  <h2 class="fx">Halimaw Mode</h2>
-  <p class="soft">Unlock the ultimate sentence challenge. Only for true sentence monsters!</p>
-  <ul class="perks" id="perks"><li>👹 Monster-level sentences</li><li>⚡ Zero mercy, zero hints</li><li>🏆 Bragging rights forever</li></ul>
-  <div class="rich" id="rich" hidden>RICH YARN??</div>
-  <button class="btn gold" id="goPrem">Go Premium</button>
-  <button class="btn ghost" id="premBack">Back</button>
 </section>
 
 <section class="screen" id="act">
@@ -113,7 +99,7 @@
       <div><label><span>🔄 Word order</span><span id="s1n"></span></label><div class="track"><i id="s1" style="background:var(--blue)"></i></div></div>
       <div><label><span>✏️ Sentence construction</span><span id="s2n"></span></label><div class="track"><i id="s2" style="background:var(--lav)"></i></div></div></div>
   </div>
-  <nav class="nav"><button data-go="home"><span>🏠</span>Home</button><button data-go="learn"><span>📖</span>Learn</button><button class="on" data-go="progress"><span>📊</span>Progress</button><button data-go="profile"><span>🙂</span>Profile</button></nav>
+  <nav class="nav"><button data-go="home"><span>🏠</span>Home</button><button class="on" data-go="progress"><span>📊</span>Progress</button><button data-go="profile"><span>🙂</span>Profile</button></nav>
 </section>
 
 <section class="screen" id="profile">
@@ -126,7 +112,7 @@
     <button class="row" id="theme" role="switch" aria-checked="false"><span id="thIcon">🌙</span><span id="thLabel">Dark mode</span><span class="sw"><i></i></span></button>
     <button class="row" data-about>ℹ️ About Sentensia<span style="margin-left:auto">›</span></button>
   </div>
-  <nav class="nav"><button data-go="home"><span>🏠</span>Home</button><button data-go="learn"><span>📖</span>Learn</button><button data-go="progress"><span>📊</span>Progress</button><button class="on" data-go="profile"><span>🙂</span>Profile</button></nav>
+  <nav class="nav"><button data-go="home"><span>🏠</span>Home</button><button data-go="progress"><span>📊</span>Progress</button><button class="on" data-go="profile"><span>🙂</span>Profile</button></nav>
 </section>
 <section class="screen" id="photo">
   <div class="bar"><button class="ib" data-go="profile" aria-label="Back">←</button><div class="t">Profile picture</div><div class="c"></div></div>
