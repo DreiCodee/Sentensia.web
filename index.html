@@ -8,8 +8,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Sentensia</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-title" content="Sentensia">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="game.css">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -48,6 +52,7 @@
 <symbol id="i-chat" viewBox="0 0 24 24"><path class="d" d="M4.5 6.6A2.6 2.6 0 0 1 7.1 4h9.8a2.6 2.6 0 0 1 2.6 2.6v5.8A2.6 2.6 0 0 1 16.9 15h-5.3L8 18.6V15h-.9a2.6 2.6 0 0 1-2.6-2.6z"/></symbol>
 <symbol id="i-quote" viewBox="0 0 24 24"><path class="d" d="M5 17.6V13a5 5 0 0 1 5-5v2.6a2.4 2.4 0 0 0-2.4 2.4H10v4.6zM14 17.6V13a5 5 0 0 1 5-5v2.6a2.4 2.4 0 0 0-2.4 2.4H19v4.6z"/></symbol>
 <symbol id="i-star" viewBox="0 0 24 24"><path class="d" d="M12 3.8l2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 17l-5.2 2.8 1-5.8L3.6 9.9l5.8-.8z"/></symbol>
+<symbol id="i-ship" viewBox="0 0 24 24"><ellipse class="d" cx="12" cy="9" rx="8.6" ry="5.4"/><path d="M6.4 13.2L9 17.4M17.6 13.2L15 17.4"/><rect class="d" x="8.8" y="17.2" width="6.4" height="3.4" rx="1.2"/><path d="M3.4 8.2L1.6 6.2M3.4 10l-1.8 2"/></symbol>
 </defs></svg>
 
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
@@ -81,6 +86,7 @@
     <button class="menu m2" data-act="fix"><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-swap"/></svg></div><div><b>Fix the Order</b><small>Correct the word order and arrangement.</small></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
     <button class="menu m3" data-act="build"><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-pencil"/></svg></div><div><b>Build a Sentence</b><small>Create complete, correct sentences.</small></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
     <button class="menu m5" id="wcCard" data-word><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-cards"/></svg></div><div><b>Daily Word Challenge</b><small id="wcSub">Learn one new word every day.</small><span class="wcs" id="wcStreak"></span></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
+    <button class="menu m4" data-go="games"><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-ship"/></svg></div><div><b>Games</b><small>Play word games and beat your best score.</small></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
   </div>
   <nav class="nav" aria-label="Main"><button class="on" data-go="home"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg><span>Home</span></button><button data-go="progress"><svg class="i" aria-hidden="true"><use href="#i-chart"/></svg><span>Progress</span></button><button data-go="profile"><svg class="i" aria-hidden="true"><use href="#i-user"/></svg><span>Profile</span></button></nav>
 </section>
@@ -208,6 +214,24 @@
   <button class="btn ghost" id="wdReview">Review the word</button>
 </section>
 
+<section class="screen" id="games">
+  <div class="bar"><button class="ib" data-go="home" aria-label="Back"><svg class="i" aria-hidden="true"><use href="#i-left"/></svg></button><div class="t">Games</div><div class="c"></div></div>
+  <div class="body">
+    <button class="menu m4" data-game="skyrescue"><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-ship"/></svg></div><div><b>Sky Rescue</b><small id="gBestSub">Blast the meteors with the right word.</small></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
+    <p class="gnote">More games coming soon!</p>
+  </div>
+</section>
+
+<section class="screen" id="game">
+  <div class="bar" id="gBar"><button class="ib" data-go="games" aria-label="Back"><svg class="i" aria-hidden="true"><use href="#i-left"/></svg></button><div class="t">Sky Rescue</div><div class="c"></div></div>
+  <div class="gfield" id="gField">
+    <canvas id="gCanvas" aria-label="Sky Rescue game"></canvas>
+    <div class="ghud"><div class="glives" id="gLives"></div><div class="gscore"><b id="gScore">0</b><small id="gStreak"></small></div><div class="glevel" id="gLevel">Level 1</div></div>
+    <div class="gover" id="gOverlay"><h2 id="gOvTitle"></h2><p id="gOvText"></p><button class="btn" id="gOvBtn">Start</button><button class="btn ghost" id="gOvBack" data-go="games" hidden>Back to games</button></div>
+  </div>
+  <div class="gopts idle" id="gOpts"></div>
+</section>
+
 <section class="screen" id="about">
   <div class="bar g"><button class="ib" data-go="profile" aria-label="Back"><svg class="i" aria-hidden="true"><use href="#i-left"/></svg></button><div class="t">About Sentensia</div><div class="c"></div></div>
   <div class="body">
@@ -224,5 +248,6 @@
 </main>
 
 <script src="script.js"></script>
+<script src="game.js"></script>
 </body>
 </html>

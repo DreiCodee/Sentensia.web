@@ -1,0 +1,44 @@
+/* =====================================================================
+   SKY RESCUE game styles  (the game itself is drawn in game.js)
+   ===================================================================== */
+
+/* the Games card on Home uses the green tile (.m4) - nothing to add */
+.gnote{text-align:center;color:var(--soft);font:500 15px var(--font);margin:6px 0 0}
+
+/* ----- the game screen ----- */
+#gBar{background:#17324b}                       /* dark top bar to match the night sky */
+.gfield{position:relative;flex:1;min-height:0;overflow:hidden;background:#102c47;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.gfield canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+/* score, hearts, level */
+.ghud{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:flex-start;padding:10px 14px;color:#fff;font-family:var(--font);pointer-events:none;text-shadow:0 1px 6px #0006}
+.glives{display:flex;gap:4px}
+.glives .i{width:24px;height:24px;color:#ff7a7a}
+.glives .i.off{opacity:.25}
+.gscore{text-align:center;line-height:1.1}
+.gscore b{display:block;font-size:30px;font-weight:800}
+.gscore small{display:block;font-size:13px;font-weight:600;color:#ffd166;min-height:15px}
+.glevel{font-weight:700;font-size:15px;background:#ffffff26;border-radius:999px;padding:5px 12px}
+
+/* Start / Paused / Game over message */
+.gover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px;background:rgba(10,24,40,.92);color:#fff;font-family:var(--font);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.gover[hidden]{display:none}
+.gover h2{margin:0;font-size:30px;font-weight:800}
+.gover p{margin:0;font-size:16px;line-height:1.5;color:#dcebf5;max-width:290px}
+.gover .gbig{font-size:52px;font-weight:800;color:#ffd166;line-height:1.1}
+.gover .btn{max-width:260px}
+.gover .btn.ghost{background:#ffffff22;box-shadow:none}
+
+/* the answer buttons under the play area */
+.gopts{display:flex;flex-wrap:wrap;gap:10px;padding:12px 14px calc(14px + env(safe-area-inset-bottom,0px));background:var(--card);min-height:150px;align-content:flex-start}
+.gopt{flex:1 1 40%;min-height:56px;border-radius:16px;border:2px solid var(--line);background:var(--bl1);color:var(--ink);font:700 19px var(--font);cursor:pointer;transition:transform .12s,background .2s,opacity .2s}
+.gopt:active{transform:scale(.95)}
+.gopt.bad{background:var(--clay2);text-decoration:line-through;opacity:.55}
+.gopt:disabled{cursor:default}
+.gopts.idle .gopt{opacity:.35}
+
+/* short screens (phone turned sideways) */
+@media (max-height:520px){
+  .gopts{min-height:0;padding:8px 14px}
+  .gopt{min-height:44px;font-size:16px}
+}
