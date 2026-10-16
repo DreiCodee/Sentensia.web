@@ -14,7 +14,22 @@ function go(id,fwd){
   if(id==='levels')renderLevels();
   if(id==='home')updateWordCard();
   if(id==='progress')setTimeout(drawProgress,250);
+  syncHistory(id);
 }
+/* phone back button / swipe-back: go to the previous screen instead of leaving the site */
+const PARENT={levels:'home',complete:'levels',act:'levels',result:'levels',word:'home',wquiz:'word',wdone:'home',progress:'home',profile:'home',photo:'profile',about:'profile',splash:'profile'};
+const parentOf=id=>id==='welcome'?(userName&&userGender?'profile':null):PARENT[id];
+let armed=false,skipPop=false;
+function syncHistory(id){
+  if(id==='home'){if(armed){armed=false;skipPop=true;history.back()}return}
+  if(!armed){try{history.pushState({sf:1},'');armed=true}catch(e){}}
+}
+addEventListener('popstate',()=>{
+  if(skipPop){skipPop=false;return}
+  armed=false;
+  const t=parentOf(cur);
+  if(t)go(t,false);
+});
 document.addEventListener('click',e=>{
   if(e.target.closest('[data-word]'))return openWord();
   if(e.target.closest('[data-photo]'))return openPhoto();
@@ -394,3 +409,6 @@ function applyTheme(dark,save){
 (()=>{let v=null;try{v=localStorage.getItem('sf-theme')}catch(e){}
   applyTheme(v?v==='dark':matchMedia('(prefers-color-scheme: dark)').matches,false)})();
 $('#theme').onclick=()=>applyTheme(document.documentElement.dataset.theme!=='dark',true);
+
+/* offline + install */
+if('serviceWorker' in navigator&&location.protocol!=='file:')window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
