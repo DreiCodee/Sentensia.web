@@ -1,7 +1,7 @@
 const $=s=>document.querySelector(s),app=$('#app');
 const ICO=n=>'<svg class="i" aria-hidden="true"><use href="#i-'+n+'"/></svg>';
 const setVH=()=>document.documentElement.style.setProperty('--vh',(window.innerHeight*0.01)+'px');setVH();addEventListener('resize',setVH);addEventListener('orientationchange',setVH);
-const order=['splash','home','levels','complete','learn','act','result','progress','profile','photo','about','welcome'];
+const order=['splash','home','levels','complete','word','wquiz','wdone','learn','act','result','progress','profile','photo','about','welcome'];
 let cur='splash';
 function go(id,fwd){
   if(id===cur)return;
@@ -12,9 +12,11 @@ function go(id,fwd){
   setTimeout(()=>a.classList.remove('left'),500);
   cur=id;
   if(id==='levels')renderLevels();
+  if(id==='home')updateWordCard();
   if(id==='progress')setTimeout(drawProgress,250);
 }
 document.addEventListener('click',e=>{
+  if(e.target.closest('[data-word]'))return openWord();
   if(e.target.closest('[data-photo]'))return openPhoto();
   if(e.target.closest('[data-about]'))return openAbout();
   if(e.target.closest('[data-rename]'))return showWelcome();
@@ -222,6 +224,138 @@ $('#phSave').onclick=()=>{
   setAvatar();go('profile');
 };
 $('#phDefault').onclick=()=>{userPhoto='';try{localStorage.removeItem('sf-photo')}catch(e){}setAvatar();go('profile')};
+
+/* ---- Daily Word Challenge ---- */
+const WORDS=[
+{w:"diligent",pos:"adjective",pron:"DIL-ih-jent",def:"working hard and carefully",syn:"hardworking",ex:"Maria is a diligent student who finishes her homework every night.",talk:["How does Maria always get such high grades?","She is very diligent. She studies a little every day."]},
+{w:"curious",pos:"adjective",pron:"KYOOR-ee-us",def:"eager to learn or know more",syn:"inquisitive",ex:"The curious boy asked his teacher many questions about space.",talk:["Why are you reading about volcanoes again?","I'm curious about how they erupt."]},
+{w:"generous",pos:"adjective",pron:"JEN-er-us",def:"happy to give or share more than is expected",syn:"big-hearted",ex:"He was generous and shared his lunch with a classmate.",talk:["Thank you for lending me your notes!","Of course! I like to be generous with my friends."]},
+{w:"brave",pos:"adjective",pron:"brayv",def:"ready to face danger or fear",syn:"courageous",ex:"The brave girl spoke in front of the whole school.",talk:["Weren't you nervous about the speech?","A little, but I tried to be brave."]},
+{w:"honest",pos:"adjective",pron:"ON-ist",def:"telling the truth and not cheating",syn:"truthful",ex:"An honest person returns a wallet they find.",talk:["Do you like my drawing? Please be honest.","I think it's great, but the sky needs more color."]},
+{w:"patient",pos:"adjective",pron:"PAY-shunt",def:"able to wait calmly without getting angry",syn:"calm",ex:"Our teacher is patient when we make mistakes.",talk:["The line is so long today.","Let's be patient. It will move soon."]},
+{w:"cheerful",pos:"adjective",pron:"CHEER-ful",def:"happy and full of good feelings",syn:"joyful",ex:"She gave a cheerful smile to everyone in the hallway.",talk:["You look so happy this morning!","I'm cheerful because today is Friday."]},
+{w:"gather",pos:"verb",pron:"GATH-er",def:"to bring people or things together",syn:"collect",ex:"Please gather your books and line up at the door.",talk:["Where should we meet for the group project?","Let's gather in the library at noon."]},
+{w:"improve",pos:"verb",pron:"im-PROOV",def:"to get better or make something better",syn:"advance",ex:"She practices every day to improve her English.",talk:["Your handwriting looks neater now.","Thanks! I'm trying to improve it."]},
+{w:"borrow",pos:"verb",pron:"BOR-oh",def:"to take something and give it back later",syn:"take on loan",ex:"May I borrow your pencil for a moment?",talk:["I forgot my ruler today.","You can borrow mine. Please return it after class."]},
+{w:"enormous",pos:"adjective",pron:"ih-NOR-mus",def:"extremely large",syn:"huge",ex:"An enormous elephant walked slowly across the field.",talk:["Did you see the new stadium?","Yes! It's enormous. It can hold fifty thousand people."]},
+{w:"fragile",pos:"adjective",pron:"FRAJ-ul",def:"easily broken or damaged",syn:"delicate",ex:"Be careful with that glass. It is very fragile.",talk:["Can I carry this box?","Please be gentle. The things inside are fragile."]},
+{w:"prepare",pos:"verb",pron:"prih-PAIR",def:"to get ready for something",syn:"get ready",ex:"We will prepare a short play for Friday.",talk:["Are you ready for the quiz tomorrow?","Not yet, but I will prepare tonight."]},
+{w:"explore",pos:"verb",pron:"ik-SPLOR",def:"to travel or search to find new things",syn:"discover",ex:"The children want to explore the forest behind the school.",talk:["What do you want to do on the field trip?","I want to explore the museum."]},
+{w:"confident",pos:"adjective",pron:"KON-fih-dent",def:"sure that you can do something well",syn:"self-assured",ex:"He felt confident before his math test.",talk:["Are you ready for the spelling bee?","Yes! I practiced a lot, so I feel confident."]},
+{w:"respect",pos:"verb",pron:"rih-SPEKT",def:"to show polite care and regard for someone",syn:"value",ex:"We respect our teachers and classmates.",talk:["Why did you hold the door for the older man?","It's a way to respect other people."]},
+{w:"achieve",pos:"verb",pron:"uh-CHEEV",def:"to reach a goal through hard work",syn:"accomplish",ex:"With hard work, you can achieve your dreams.",talk:["What is your goal this year?","I want to achieve a perfect score in English."]},
+{w:"familiar",pos:"adjective",pron:"fuh-MIL-yer",def:"well known because you have seen or heard it before",syn:"well-known",ex:"Your face looks familiar. Have we met before?",talk:["Do you know this song?","Yes, the tune sounds familiar."]},
+{w:"recommend",pos:"verb",pron:"rek-uh-MEND",def:"to say that something is good and worth trying",syn:"suggest",ex:"Can you recommend a good book for me?",talk:["I need a new story to read.","I recommend this one. It's funny and short."]},
+{w:"punctual",pos:"adjective",pron:"PUNK-choo-ul",def:"arriving at the right time and not late",syn:"on time",ex:"A punctual student is never late for class.",talk:["Why are you always here first?","I try to be punctual because I don't like to rush."]},
+{w:"cooperate",pos:"verb",pron:"koh-OP-er-ayt",def:"to work together with others",syn:"collaborate",ex:"Teammates must cooperate to win the game.",talk:["Our group project is due Friday.","If we cooperate and share the work, we'll finish on time."]},
+{w:"describe",pos:"verb",pron:"dih-SKRIBE",def:"to tell what someone or something is like",syn:"tell about",ex:"Can you describe your best friend?",talk:["I lost my bag at the park.","Please describe it so we can look for it."]},
+{w:"decide",pos:"verb",pron:"dih-SIDE",def:"to make a choice after thinking",syn:"choose",ex:"It is hard to decide between pizza and pasta.",talk:["Which club will you join?","I can't decide yet. I like art and music."]},
+{w:"ancient",pos:"adjective",pron:"AYN-shunt",def:"very, very old",syn:"from long ago",ex:"We saw an ancient temple on our trip.",talk:["What did you visit in Rome?","An ancient building called the Colosseum."]},
+{w:"challenge",pos:"noun",pron:"CHAL-inj",def:"something difficult that tests your skills",syn:"test",ex:"Solving the puzzle was a fun challenge.",talk:["How was the math contest?","It was a real challenge, but I enjoyed it."]},
+{w:"convince",pos:"verb",pron:"kun-VINS",def:"to make someone believe or agree",syn:"persuade",ex:"I tried to convince my mom to let me join the trip.",talk:["Will your parents let you go camping?","I hope so. I will try to convince them."]},
+{w:"sincere",pos:"adjective",pron:"sin-SEER",def:"honest and meaning what you say",syn:"genuine",ex:"She gave a sincere thank-you to her teacher.",talk:["Did he really mean his apology?","Yes, he looked very sincere."]},
+{w:"persevere",pos:"verb",pron:"per-suh-VEER",def:"to keep trying even when it is hard",syn:"persist",ex:"If you persevere, you will finish the race.",talk:["This puzzle is so hard!","Don't give up. Persevere and you'll solve it."]},
+{w:"grateful",pos:"adjective",pron:"GRAYT-ful",def:"feeling thankful",syn:"thankful",ex:"I am grateful for my friends' help.",talk:["Thank you for staying to help me. I'm so grateful.","Anytime! That's what friends are for."]},
+{w:"efficient",pos:"adjective",pron:"ih-FISH-unt",def:"doing work well without wasting time or effort",syn:"productive",ex:"An efficient student plans her time carefully.",talk:["How did you finish so quickly?","I made a plan, so I was more efficient."]}
+];
+const WCLASH=[["honest","sincere"],["diligent","efficient"],["diligent","persevere"],["brave","confident"],["curious","explore"],["respect","grateful"],["convince","recommend"],["patient","persevere"],["gather","cooperate"],["achieve","improve"],["cheerful","grateful"]];
+const clash=(a,b)=>a.w===b.w||WCLASH.some(p=>p.includes(a.w)&&p.includes(b.w));
+const pad2=n=>String(n).padStart(2,'0');
+const dkey=d=>d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const esc=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const hi=(t,w)=>esc(t).replace(new RegExp('\\b('+w+')\\b','i'),'<mark>$1</mark>');
+let wDays=new Set(),wScores={};
+try{wDays=new Set(JSON.parse(localStorage.getItem('sf-wdays')||'[]'));wScores=JSON.parse(localStorage.getItem('sf-wscore')||'{}')}catch(e){}
+const saveW=()=>{try{localStorage.setItem('sf-wdays',JSON.stringify([...wDays]));localStorage.setItem('sf-wscore',JSON.stringify(wScores))}catch(e){}};
+function wordFor(d){const n=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);return WORDS[((n%WORDS.length)+WORDS.length)%WORDS.length]}
+function streakInfo(){
+  const today=new Date();let c=0,d=wDays.has(dkey(today))?today:addDays(today,-1);
+  while(wDays.has(dkey(d))){c++;d=addDays(d,-1)}
+  let best=0,run=0,prev=null;
+  [...wDays].sort().forEach(k=>{const dt=new Date(k+'T00:00:00');run=prev&&dkey(addDays(prev,1))===k?run+1:1;best=Math.max(best,run);prev=dt});
+  return{streak:c,best,total:wDays.size,doneToday:wDays.has(dkey(today))};
+}
+function drawWeek(el){
+  const t=new Date(),L=['S','M','T','W','T','F','S'];let html='';
+  for(let i=-6;i<=0;i++){const d=addDays(t,i),k=dkey(d);
+    html+='<div class="day'+(wDays.has(k)?' done':'')+(i===0?' today':'')+'"><i>'+(wDays.has(k)?ICO('tick'):'')+'</i>'+L[d.getDay()]+'</div>'}
+  el.innerHTML=html;
+}
+function updateWordCard(){
+  const s=streakInfo(),card=$('#wcCard');if(!card)return;
+  card.classList.toggle('complete',s.doneToday);
+  $('#wcSub').textContent=s.doneToday?"Today's word is done. Come back tomorrow!":'Learn one new word every day.';
+  const chip=$('#wcStreak');chip.hidden=!s.streak;chip.innerHTML=s.streak?ICO('flame')+s.streak+'-day streak':'';
+  card.lastElementChild.innerHTML=ICO(s.doneToday?'check':'right');
+}
+let curW=null,wq=[],wqi=0,wqScore=0;
+function openWord(){
+  const w=curW=wordFor(new Date()),s=streakInfo();
+  $('#wDate').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+  $('#wWord').textContent=w.w;$('#wPos').textContent=w.pos;$('#wPron').textContent='/'+w.pron+'/';
+  $('#wDef').textContent=w.def[0].toUpperCase()+w.def.slice(1)+'.';
+  $('#wEx').innerHTML=hi(w.ex,w.w);
+  $('#wTalk').innerHTML=w.talk.map((t,k)=>'<div class="bub '+(k?'b':'a')+'">'+hi(t,w.w)+'</div>').join('');
+  $('#wBarStreak').innerHTML=ICO('flame')+s.streak;
+  $('#wStart').textContent=s.doneToday?'Practice the quiz again':'Start the quiz';
+  drawWeek($('#wWeek'));go('word');
+}
+if(!('speechSynthesis' in window))$('#wListen').hidden=true;
+$('#wListen').onclick=()=>{try{const u=new SpeechSynthesisUtterance(curW.w);u.lang='en-US';u.rate=.8;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}};
+const rnd=(arr,n)=>[...arr].sort(()=>Math.random()-.5).slice(0,n);
+function buildQuiz(w){
+  const others=WORDS.filter(o=>!clash(w,o));
+  const q1=[w.def,...rnd(others,2).map(o=>o.def)];
+  const diffPos=others.filter(o=>o.pos!==w.pos);
+  const q2=[w.w,...rnd(diffPos,2).map(o=>o.w)];
+  const q3=[w.syn,...rnd(others,2).map(o=>o.syn)];
+  const sent=w.ex.replace(new RegExp('\\b'+w.w+'\\b','i'),'_____');
+  return[
+   {tag:'Meaning',q:'What does “'+w.w+'” mean?',opts:q1,ans:w.def,why:'“'+w.w+'” means '+w.def+'.'},
+   {tag:'Use it',q:'Choose the word that completes the sentence:\n“'+sent+'”',opts:q2,ans:w.w,why:'The full sentence is: “'+w.ex+'”'},
+   {tag:'Same meaning',q:'Which word is closest in meaning to “'+w.w+'”?',opts:q3,ans:w.syn,why:'“'+w.w+'” and “'+w.syn+'” mean almost the same thing.'}
+  ].map(x=>({...x,opts:x.opts.sort(()=>Math.random()-.5)}));
+}
+function wqRender(){
+  const x=wq[wqi];
+  $('#wqCount').textContent=(wqi+1)+'/'+wq.length;
+  $('#wqSeg').innerHTML=wq.map((_,k)=>'<i class="'+(k<wqi?(wq[k].r?'ok':'no'):k===wqi?'on':'')+'"></i>').join('');
+  $('#wqTag').textContent=x.tag;
+  $('#wqQ').innerHTML=esc(x.q).replace(/\n/g,'<br>');
+  const o=$('#wqOpts');o.classList.remove('lock');
+  o.innerHTML=x.opts.map((t,k)=>'<button class="opt" data-k="'+k+'"><b>'+'ABC'[k]+'</b><span>'+esc(t)+'</span></button>').join('');
+  $('#wqFb').hidden=true;$('#wqNext').hidden=true;
+}
+$('#wStart').onclick=()=>{wq=buildQuiz(curW);wqi=0;wqScore=0;wqRender();go('wquiz')};
+$('#wqBack').onclick=()=>go('word');
+$('#wqOpts').onclick=e=>{
+  const b=e.target.closest('.opt');if(!b||$('#wqOpts').classList.contains('lock'))return;
+  const x=wq[wqi],right=x.opts[+b.dataset.k]===x.ans;
+  x.r=right;if(right)wqScore++;
+  $('#wqOpts').classList.add('lock');
+  document.querySelectorAll('#wqOpts .opt').forEach(el=>{if(x.opts[+el.dataset.k]===x.ans)el.classList.add('ok')});
+  if(!right)b.classList.add('no');
+  const fb=$('#wqFb');fb.className='wfb '+(right?'ok':'no');
+  fb.innerHTML='<b>'+(right?'Correct!':'Not quite.')+'</b>'+esc(x.why);fb.hidden=false;
+  $('#wqNext').textContent=wqi===wq.length-1?'Finish':'Next';$('#wqNext').hidden=false;
+  $('#wqSeg').children[wqi].className=right?'ok':'no';
+};
+$('#wqNext').onclick=()=>{if(wqi<wq.length-1){wqi++;wqRender()}else wqFinish()};
+function wqFinish(){
+  const k=dkey(new Date()),first=!wDays.has(k);
+  wDays.add(k);wScores[k]=Math.max(wScores[k]||0,wqScore);saveW();
+  const s=streakInfo();
+  $('#wdTitle').textContent=first?(s.streak===1?'Streak started!':s.streak+'-day streak!'):'Nice practice!';
+  $('#wdSub').textContent=first?'You scored '+wqScore+' out of '+wq.length+'. Come back tomorrow for a new word.':'You scored '+wqScore+' out of '+wq.length+'. Your streak is '+s.streak+(s.streak===1?' day.':' days.');
+  $('#wdWord').textContent=curW.w;$('#wdDef').textContent=curW.def[0].toUpperCase()+curW.def.slice(1)+'.';
+  drawWeek($('#wdWeek'));updateWordCard();
+  const f=$('#wdFlame');f.style.animation='none';void f.offsetWidth;f.style.animation='';
+  go('wdone');
+}
+$('#wdHome').onclick=()=>go('home');
+$('#wdReview').onclick=()=>openWord();
+updateWordCard();
 
 /* progress */
 function drawProgress(){
