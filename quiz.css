@@ -1,0 +1,22 @@
+/* =====================================================================
+   QUICK QUIZ styles  (the quiz logic is in quiz.js)
+   The question screen re-uses the Daily Word quiz styles in style.css
+   ===================================================================== */
+
+/* Home card colour (sky blue) */
+.m6{background:color-mix(in srgb,var(--blue) 20%,var(--card))}
+.m6 .ic{color:color-mix(in srgb,var(--blue) 82%,#000)}
+
+/* blank in a "fill the gap" question */
+#qzQ mark{display:inline-block;min-width:64px;border-bottom:3px solid var(--honey);background:var(--honey2);border-radius:6px;vertical-align:baseline}
+
+/* result screen */
+.qzscore{width:150px;height:150px;border-radius:50%;margin:4px auto;display:grid;place-content:center;text-align:center;background:var(--green2);border:6px solid var(--green);font-family:var(--font)}
+.qzscore b{font-size:52px;line-height:1;color:var(--ink)}
+.qzscore span{font-size:14px;font-weight:600;color:var(--soft)}
+#qzdBody h3{margin:6px 0 -4px;font-size:17px;color:var(--ink)}
+.qzm{background:var(--clay2);border-radius:16px;padding:12px 14px;line-height:1.4;font-size:15px;color:var(--ink);display:flex;flex-direction:column;gap:3px}
+.qzm-q{font-weight:700}
+.qzm-a{color:var(--soft)}
+.qzm-r b{color:color-mix(in srgb,var(--green) 70%,#000)}
+.qzm-w{font-size:14px;color:var(--soft)}

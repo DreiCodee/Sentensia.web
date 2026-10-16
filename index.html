@@ -14,6 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="game.css">
+<link rel="stylesheet" href="quiz.css">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -86,6 +87,7 @@
     <button class="menu m2" data-act="fix"><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-swap"/></svg></div><div><b>Fix the Order</b><small>Correct the word order and arrangement.</small></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
     <button class="menu m3" data-act="build"><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-pencil"/></svg></div><div><b>Build a Sentence</b><small>Create complete, correct sentences.</small></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
     <button class="menu m5" id="wcCard" data-word><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-cards"/></svg></div><div><b>Daily Word Challenge</b><small id="wcSub">Learn one new word every day.</small><span class="wcs" id="wcStreak"></span></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
+    <button class="menu m6" data-go="qz"><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-bulb"/></svg></div><div><b>Quick Quiz</b><small>Test your grammar with 10 questions.</small></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
     <button class="menu m4" data-go="games"><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-ship"/></svg></div><div><b>Games</b><small>Play word games and beat your best score.</small></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
   </div>
   <nav class="nav" aria-label="Main"><button class="on" data-go="home"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg><span>Home</span></button><button data-go="progress"><svg class="i" aria-hidden="true"><use href="#i-chart"/></svg><span>Progress</span></button><button data-go="profile"><svg class="i" aria-hidden="true"><use href="#i-user"/></svg><span>Profile</span></button></nav>
@@ -214,6 +216,40 @@
   <button class="btn ghost" id="wdReview">Review the word</button>
 </section>
 
+<section class="screen" id="qz">
+  <div class="bar"><button class="ib" data-go="home" aria-label="Back"><svg class="i" aria-hidden="true"><use href="#i-left"/></svg></button><div class="t">Quick Quiz</div><div class="c"></div></div>
+  <div class="body">
+    <p class="gnote" style="margin:0 0 4px">Pick a level. Each quiz has 10 questions.</p>
+    <button class="menu m4" data-qlvl="beginner"><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-sprout"/></svg></div><div><b>Beginner</b><small></small></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
+    <button class="menu m2" data-qlvl="intermediate"><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-plant"/></svg></div><div><b>Intermediate</b><small></small></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
+    <button class="menu m3" data-qlvl="advanced"><div class="ic"><svg class="i" aria-hidden="true"><use href="#i-tree"/></svg></div><div><b>Advanced</b><small></small></div><span><svg class="i" aria-hidden="true"><use href="#i-right"/></svg></span></button>
+  </div>
+</section>
+
+<section class="screen" id="qzplay">
+  <div class="bar"><button class="ib" id="qzBack" aria-label="Back"><svg class="i" aria-hidden="true"><use href="#i-left"/></svg></button><div class="t">Quick Quiz</div><div class="c" id="qzCount"></div></div>
+  <div class="body">
+    <div class="seg" id="qzSeg"></div>
+    <p class="wqtag" id="qzTag"></p>
+    <h2 class="wq" id="qzQ"></h2>
+    <div class="opts" id="qzOpts"></div>
+    <div class="wfb" id="qzFb" hidden></div>
+    <button class="btn" id="qzNext" hidden>Next</button>
+  </div>
+</section>
+
+<section class="screen" id="qzdone">
+  <div class="bar g"><button class="ib" data-go="qz" aria-label="Back"><svg class="i" aria-hidden="true"><use href="#i-left"/></svg></button><div class="t">Your result</div><div class="c"></div></div>
+  <div class="body" id="qzdBody">
+    <div class="qzscore"><div><b id="qzdScore">0</b><span id="qzdOf"></span></div></div>
+    <h2 class="fx" id="qzdTitle" style="text-align:center;margin:0"></h2>
+    <p class="soft" id="qzdSub" style="text-align:center;margin:0"></p>
+    <div id="qzdMiss" style="display:flex;flex-direction:column;gap:10px"></div>
+    <button class="btn" id="qzdAgain">Try again</button>
+    <button class="btn ghost" data-go="qz">Choose another level</button>
+  </div>
+</section>
+
 <section class="screen" id="games">
   <div class="bar"><button class="ib" data-go="home" aria-label="Back"><svg class="i" aria-hidden="true"><use href="#i-left"/></svg></button><div class="t">Games</div><div class="c"></div></div>
   <div class="body">
@@ -249,5 +285,6 @@
 
 <script src="script.js"></script>
 <script src="game.js"></script>
+<script src="quiz.js"></script>
 </body>
 </html>

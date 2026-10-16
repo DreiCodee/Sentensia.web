@@ -1,5 +1,5 @@
-const V='sentensia-v4';
-const FILES=['./','index.html','style.css','game.css','script.js','game.js','manifest.json','icon-192.png','icon-512.png','icon-180.png'];
+const V='sentensia-v5';
+const FILES=['./','index.html','style.css','game.css','quiz.css','script.js','game.js','quiz.js','manifest.json','icon-192.png','icon-512.png','icon-180.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(FILES.map(f=>new Request(f,{cache:'reload'})))).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 /* online: always get the newest files. offline (or slow, 4s): use the saved copy */

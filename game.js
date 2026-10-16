@@ -81,7 +81,7 @@ const SkyRescue = (() => {
     ['Maria is ___ a book.',               'reading',  ['reading', 'read', 'reads'], 1],
     ['This is ___ book.',                  'my',       ['my', 'me', 'I'], 1],
     ['The dogs ___ loud.',                 'are',      ['are', 'is', 'am'], 1],
-    ['The picture hangs ___ the wall.',    'on',       ['on', 'in', 'of'], 1],
+    ['The picture hangs ___ the wall.',    'on',       ['on', 'in', 'of'], 1],  
     ['You use a ___ to write on paper.',   'pen',      ['pen', 'fork', 'shoe'], 1],
     ['The opposite of hot is ___.',        'cold',     ['cold', 'big', 'soft'], 1],
 

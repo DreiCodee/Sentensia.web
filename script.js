@@ -1,7 +1,7 @@
 const $=s=>document.querySelector(s),app=$('#app');
 const ICO=n=>'<svg class="i" aria-hidden="true"><use href="#i-'+n+'"/></svg>';
 const setVH=()=>document.documentElement.style.setProperty('--vh',(window.innerHeight*0.01)+'px');setVH();addEventListener('resize',setVH);addEventListener('orientationchange',setVH);
-const order=['splash','home','games','game','levels','complete','word','wquiz','wdone','learn','act','result','progress','profile','photo','about','welcome'];
+const order=['splash','home','qz','qzplay','qzdone','games','game','levels','complete','word','wquiz','wdone','learn','act','result','progress','profile','photo','about','welcome'];
 let cur='splash';
 function go(id,fwd){
   if(id===cur)return;
@@ -18,7 +18,7 @@ function go(id,fwd){
   syncHistory(id);
 }
 /* phone back button / swipe-back: go to the previous screen instead of leaving the site */
-const PARENT={games:'home',game:'games',levels:'home',complete:'levels',act:'levels',result:'levels',word:'home',wquiz:'word',wdone:'home',progress:'home',profile:'home',photo:'profile',about:'profile',splash:'profile'};
+const PARENT={qz:'home',qzplay:'qz',qzdone:'qz',games:'home',game:'games',levels:'home',complete:'levels',act:'levels',result:'levels',word:'home',wquiz:'word',wdone:'home',progress:'home',profile:'home',photo:'profile',about:'profile',splash:'profile'};
 const parentOf=id=>id==='welcome'?(userName&&userGender?'profile':null):PARENT[id];
 let armed=false,skipPop=false;
 function syncHistory(id){
