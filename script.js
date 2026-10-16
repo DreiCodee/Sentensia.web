@@ -79,19 +79,39 @@ const D={
   {l:'Arrange the sentence elements:',o:['after the meeting','the group members','discussed','their plans','in the classroom'],w:['the group members','discussed','their plans','in the classroom','after the meeting'],a:'The group members discussed their plans in the classroom after the meeting.',e:'Subject + verb + object come first. The place ("in the classroom") comes before the time ("after the meeting").'},
   {l:'Arrange the clauses and phrases:',w:['although she was tired','Maria','completed','her assignment','before dinner'],a:'Although she was tired, Maria completed her assignment before dinner.',e:'A clause beginning with "although" can open the sentence. Put a comma after it, then the main clause.'}]}},
  fix:{t:'Fix the Order',cls:'',tip:'Check the basic sentence pattern. Ask yourself: Who? Does what? What/whom? Then check where the additional information belongs.',
-  q:[],lv:{beginner:[],intermediate:[
+  q:[],lv:{beginner:[
+  {g:['dog','the','barks'],w:['the','dog','barks'],a:'The dog barks.'},
+  {g:['red','is','apple','the'],w:['the','apple','is','red'],a:'The apple is red.'},
+  {g:['read','I','books'],w:['I','read','books'],a:'I read books.'},
+  {g:['cat','a','has','Lily'],w:['Lily','has','a','cat'],a:'Lily has a cat.'},
+  {g:['playing','are','children','the'],w:['the','children','are','playing'],a:'The children are playing.'}],intermediate:[
   {g:['school','to','goes','Anna','every day'],w:['Anna','goes','to','school','every day'],a:'Anna goes to school every day.'},
   {g:['English','studying','are','students','the'],w:['the','students','are','studying','English'],a:'The students are studying English.'},
   {g:['a','bought','new','she','bag'],w:['she','bought','a','new','bag'],a:'She bought a new bag.'},
   {g:['beautiful','flowers','the','are'],w:['the','flowers','are','beautiful'],a:'The flowers are beautiful.'},
-  {g:['delicious','cooked','father','my','meal','a'],w:['my','father','cooked','a','delicious','meal'],a:'My father cooked a delicious meal.'}],advanced:[]}},
+  {g:['delicious','cooked','father','my','meal','a'],w:['my','father','cooked','a','delicious','meal'],a:'My father cooked a delicious meal.'}],advanced:[
+  {g:['after','finished','homework','dinner','she','her'],w:['she','finished','her','homework','after','dinner'],a:'She finished her homework after dinner.'},
+  {g:['in','the','library','students','quietly','are','reading','the'],w:['the','students','are','quietly','reading','in','the','library'],a:'The students are quietly reading in the library.'},
+  {g:['because','stayed','he','home','was','sick','he'],w:['he','stayed','home','because','he','was','sick'],a:'He stayed home because he was sick.'},
+  {g:['carefully','teacher','our','the','explained','lesson','new'],w:['our','teacher','explained','the','new','lesson','carefully'],a:'Our teacher explained the new lesson carefully.'},
+  {g:['visited','we','grandmother','our','Sunday','afternoon','every'],w:['we','visited','our','grandmother','every','Sunday','afternoon'],a:'We visited our grandmother every Sunday afternoon.'}]}},
  build:{t:'Build a Sentence',cls:'l',tip:'A complete sentence has a subject, a verb and a clear meaning. Start with a capital letter and end with a full stop.',
-  q:[],lv:{beginner:[],intermediate:[
+  q:[],lv:{beginner:[
+  {el:['the bird','sings'],a:'The bird sings.'},
+  {el:['a book','reads','my sister'],a:'My sister reads a book.'},
+  {el:['the boy','a ball','kicked'],a:'The boy kicked a ball.'},
+  {el:['in the garden','the flowers','grow'],a:'The flowers grow in the garden.'},
+  {el:['to school','walk','we'],a:'We walk to school.'}],intermediate:[
   {el:['wrote','a short story','the young writer','about her dog'],a:'The young writer wrote a short story about her dog.'},
   {el:['after school','at the park','played soccer','the children'],a:'The children played soccer at the park after school.',alt:'After school, the children played soccer at the park.'},
   {el:['because it rained','stayed inside','the students','during recess'],a:'The students stayed inside during recess because it rained.',alt:'Because it rained, the students stayed inside during recess.'},
   {el:['a fresh salad','for lunch','prepared','the chef'],a:'The chef prepared a fresh salad for lunch.'},
-  {el:['before the test','reviewed','their lessons','the classmates'],a:'The classmates reviewed their lessons before the test.'}],advanced:[]}}
+  {el:['before the test','reviewed','their lessons','the classmates'],a:'The classmates reviewed their lessons before the test.'}],advanced:[
+  {el:['although she was tired','finished her project','Maria','before midnight'],a:'Although she was tired, Maria finished her project before midnight.',alt:'Maria finished her project before midnight although she was tired.'},
+  {el:['who sits beside me','my classmate','helped me','with the difficult problem'],a:'My classmate who sits beside me helped me with the difficult problem.'},
+  {el:['when the rain stopped','the children','ran outside','to play in the puddles'],a:'When the rain stopped, the children ran outside to play in the puddles.',alt:'The children ran outside to play in the puddles when the rain stopped.'},
+  {el:['the librarian','that were returned late','collected the books','after the class'],a:'The librarian collected the books that were returned late after the class.',alt:'After the class, the librarian collected the books that were returned late.'},
+  {el:['because he practiced every day','won the competition','the young musician','in the end'],a:'The young musician won the competition in the end because he practiced every day.',alt:'Because he practiced every day, the young musician won the competition in the end.'}]}}
 };
 let done=new Set();try{done=new Set(JSON.parse(localStorage.getItem('sf-done')||'[]').map(k=>k.replace(/^(fix|build)::/,'$1:intermediate:')))}catch(e){}
 const total=m=>Object.values(D[m].lv).reduce((n,a)=>n+a.length,0);
